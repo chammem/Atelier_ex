@@ -1,0 +1,48 @@
+{% if author is defined and author|length>0 %}
+
+
+<table border="3">
+
+   <tr>
+      <td>id</td>
+        <td>picture</td>
+        <td>username</td>
+        <td>email</td>
+        <td>nb_books</td>
+        <td>Detais</td>
+        
+    </tr>
+    {% set nbAuteur = 0 %}
+    {% set auteursRencontres = [] %}
+
+    {% set nbLivres = 0 %}
+     {% for i in author %}
+    <tr>
+        <td>{{i.id}}</td>
+        <td><img src="{{asset(i.picture)}}" style="height:100; width:100;"</td>
+        <td>{{i.username|upper}}</td>
+        {% if i.username not in auteursRencontres %}
+        {% set nbAuteur = nbAuteur + 1 %}
+        {% set auteursRencontres = auteursRencontres|merge([i.username]) %}
+    {% endif%}
+         
+        <td>{{i.email}}</td>
+        <td>{{i.nb_books}}</td>
+        {% set nbLivres = nbLivres + i.nb_books %}   
+        <td><a href="{{ path('authorDetails', {'id': i.id}) }}">Détails</a>  
+    </tr>
+    {% endfor %}
+    {% else %}
+ <p>Tableau vide!</p> 
+{% endif %}
+   
+</table>
+
+
+
+<p>Le nombre d'auteurs est : {{ nbAuteur }}</p>
+
+
+<p>Le nombre des livres total pour tous les auteurs est : {{ nbLivres }}</p>
+
+
